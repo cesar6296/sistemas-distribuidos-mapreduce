@@ -203,3 +203,4 @@ if __name__ == "__main__":
     print(f"\nQuery: '{query}'")
     for archivo, sim in idx.buscar(query):
         print(f"  {archivo}: {sim:.4f}")
+        

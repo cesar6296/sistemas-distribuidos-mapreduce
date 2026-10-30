@@ -2,7 +2,7 @@ from flask import Flask, request, render_template_string
 
 from similitudes import Indice
 
-ARCHIVOS = ["Doc1.txt", "Doc2.txt", "Doc3.txt", "Doc4.txt"]
+ARCHIVOS = ["Doc1.txt", "Doc2.txt", "Doc3.txt"]
 indice = Indice(ARCHIVOS)
 
 app = Flask(__name__)
@@ -37,7 +37,7 @@ PAGINA = """
     <h2>Resultados para “{{ q }}”</h2>
     {% for archivo, sim, texto in resultados %}
       <div class="fila">
-        <strong>{{ archivo }}</strong> - similitud {{ "%.2f"|format(sim) }}<br>
+        <strong>{{ archivo }}</strong> - similitud {{ "%.4f"|format(sim) }}<br>
         <small>{{ texto }}</small>
         <div class="barra" style="width: {{ (sim * 100)|round(1) }}%"></div>
       </div>
