@@ -98,8 +98,11 @@ class Indice:
         self.filenames = lista_archivos
         textos = leer_archivos(self.filenames)
         self.tokens = []
-        for t in textos:
-            self.tokens.append(tokenizar(t))
+        self.doc_lengths = {}
+        for i, t in enumerate(textos):
+            toks = tokenizar(t)
+            self.tokens.append(toks)
+            self.doc_lengths[self.filenames[i]] = len(toks)
 
         pares_map1 = []
         for i in range(len(self.filenames)):
@@ -111,10 +114,11 @@ class Indice:
             res_reduce1.append(reduce1(k, v))
 
         self.tf_docs = {}
-        for (archivo, palabra), tf in res_reduce1:
+        for (archivo, palabra), count in res_reduce1:
             if archivo not in self.tf_docs:
                 self.tf_docs[archivo] = {}
-            self.tf_docs[archivo][palabra] = tf
+            # TF relativo segun la formula de la libreta: count / total_palabras_doc
+            self.tf_docs[archivo][palabra] = count / self.doc_lengths[archivo]
 
         pares_map2 = []
         for k, v in res_reduce1:
@@ -128,7 +132,8 @@ class Indice:
         N = len(self.filenames)
         self.idf = {}
         for palabra, df in res_reduce2:
-            self.idf[palabra] = math.log(N / df)
+            # Formula de la libreta: log( (1 / DF_relativo) + 1 ) = log( (N / df) + 1 )
+            self.idf[palabra] = math.log((N / df) + 1)
 
         self.vectores = []
         for archivo in self.filenames:
@@ -196,7 +201,10 @@ if __name__ == "__main__":
     for fila in matriz:
         linea = "  "
         for valor in fila:
-            linea += f"{valor:.4f}  "
+            if round(valor, 4) == 1.0:
+                linea += "1       "
+            else:
+                linea += f"{valor:.4f}  "
         print(linea)
 
     query = "life learning"
