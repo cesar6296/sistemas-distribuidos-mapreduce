@@ -28,7 +28,7 @@ PAGINA = """
 <body>
   <h1>Buscador</h1>
   <form method="get">
-    <input type="text" name="q" value="{{ q }}" placeholder="Escribe un query, ej. life learning" autofocus>
+    <input type="text" name="q" value="{{ q }}" placeholder="Escribe aqui tu query brotherrrrrrr" autofocus>
     <button>Buscar</button>
   </form>
 
@@ -37,7 +37,7 @@ PAGINA = """
     <h2>Resultados para “{{ q }}”</h2>
     {% for archivo, sim, texto in resultados %}
       <div class="fila">
-        <strong>{{ archivo }}</strong> - similitud {{ "%.4f"|format(sim) }}<br>
+        <strong>{{ archivo }}</strong> - similitud {{ "%.3f"|format(sim) }}<br>
         <small>{{ texto }}</small>
         <div class="barra" style="width: {{ (sim * 100)|round(1) }}%"></div>
       </div>
