@@ -46,4 +46,3 @@ python app.py
 ### 4. Abrir en el navegador
 Entra a:
 http://127.0.0.1:5000
-
